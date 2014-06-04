@@ -1,20 +1,25 @@
 import ceygreenfoot {
     World,
-    Universe
-}
+    Actor,
+    animate,
+    Image
+}
 
-
-class BasicWorld() extends World(){
+import ceylon.language {
+    shared
+}
+class BasicActor() extends Actor(Image("foo.png")){
     
-}
-"Run the module `ceygreenfootexamples`."
-
-
-
-//class BasicActor() extends Actor(){}
-
-
+}class BasicWorld() extends World(){
+    
+    shared actual void initialize() {
+        addObject(BasicActor(), [300, 300]);
+    }
+    
+    
+}
+
 
 shared void run() { 
-    BasicWorld();
+    animate(BasicWorld);
 }
