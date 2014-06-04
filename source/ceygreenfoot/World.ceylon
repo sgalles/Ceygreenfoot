@@ -10,7 +10,8 @@ import ceylonfx.scene.image {
 }
 import ceylonfx.stage {
     Stage
-}
+}
+
 
 
 
@@ -20,15 +21,8 @@ shared abstract class World(
     shared Integer cellSize = 1,
     shared Boolean bounded = true) {
  
-    late Scene scene;
-    Application {
-         Stage {
-             title = "";
-             () => scene = Scene {
-                 dimension = [worldWidth.float, worldHeight.float];
-             };
-         };
-     };
+    shared late Scene scene;
+    
      
      shared void animate() {
          
@@ -53,7 +47,24 @@ shared alias Point => [Integer, Integer];
 shared void animate(World() world) {
     
     value createdWorld = world();
-    createdWorld.initialize();
+    
+    Scene createScene(){
+        createdWorld.scene = Scene {
+            dimension = [createdWorld.worldWidth.float, createdWorld.worldHeight.float];
+        };
+        createdWorld.initialize();
+        return createdWorld.scene;
+    }
+    
+    Application {
+        Stage {
+            title = "";
+            createScene;
+        };
+    };
+    
+   
+    
     createdWorld.animate();
     
 }

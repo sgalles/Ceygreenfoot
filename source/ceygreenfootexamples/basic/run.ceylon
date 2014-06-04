@@ -8,7 +8,7 @@ import ceygreenfoot {
 import ceylon.language {
     shared
 }
-class BasicActor() extends Actor(Image("foo.png")){
+class BasicActor() extends Actor(Image("file:rocket.png")){
     
 }class BasicWorld() extends World(){
     
