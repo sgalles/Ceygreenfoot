@@ -31,6 +31,8 @@ shared abstract class World(
      
      shared void addObject(Actor actor, Point point){
          value imageView = ImageView(actor.image.coreImage);
+         imageView.delegate.x = point[0].float;
+         imageView.delegate.y = point[1].float;
          scene.group.delegate.children.add(imageView.delegate);
      }
      
