@@ -1,13 +1,10 @@
 import ceygreenfoot {
     World,
     Actor,
-    animate,
-    Image
+    Image,
+    animate
 }
 
-import ceylon.language {
-    shared
-}
 class BasicActor() extends Actor(Image("file:rocket.png")){
     
     variable Integer xStep = 1;
@@ -27,7 +24,7 @@ class BasicActor() extends Actor(Image("file:rocket.png")){
 }class BasicWorld() extends World(){
     
     shared actual void initialize() {
-        addObject(BasicActor(), [300, 300]);
+        addObject(BasicActor(), [width/2, height/2]);
     }
      
 }
@@ -35,3 +32,6 @@ class BasicActor() extends Actor(Image("file:rocket.png")){
 shared void run() { 
     animate(BasicWorld);
 }
+
+
+

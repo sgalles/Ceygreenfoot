@@ -1,6 +1,4 @@
 
-
-
 import ceylonfx.animation {
     Timeline,
     KeyFrame
@@ -14,16 +12,18 @@ import ceylonfx.event {
 import ceylonfx.scene {
     Scene
 }
-import ceylonfx.scene.image {
-    ImageView
-}
 import ceylonfx.stage {
     Stage
 }
 import ceylonfx.util {
     Duration
 }
-import javafx.animation {    JAnimation=Animation {        animationIndefinite=INDEFINITE    }}
+
+import javafx.animation {
+    JAnimation=Animation {
+        animationIndefinite=INDEFINITE
+    }
+}
 shared abstract class World(
     shared Integer width = 640,
     shared Integer height = 480,
@@ -94,9 +94,8 @@ shared void animate(World() world) {
         };
     };
     
-   
-    
     createdWorld.animate();
-    
+  
 }
+
     
