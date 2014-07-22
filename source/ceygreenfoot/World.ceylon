@@ -25,8 +25,9 @@ import javafx.animation {
     }
 }
 shared abstract class World(
-    shared Integer width = 640,
-    shared Integer height = 480,
+    shared Image? image = null,
+    shared Integer width = 600,
+    shared Integer height = 600,
     shared Integer cellSize = 1,
     shared Boolean bounded = true,
     shared Integer framesPerSecond = 60) {
@@ -38,8 +39,16 @@ shared abstract class World(
     late Timeline gameLoop;
  
      
-    
      shared formal void initialize();
+ 
+     shared void internalInitialize(){
+        if(exists image){
+            scene.group.delegate.children.add(image.imageView.delegate);
+        }
+        initialize();
+     }
+ 
+    
     
  
      
@@ -52,10 +61,12 @@ shared abstract class World(
      
      }
      
-     shared void addObject(Actor actor, Point point){
+   
+     
+     shared void addObject(Actor actor, Location point){
          actor.world = this;
          actor.point = point;
-         scene.group.delegate.children.add(actor.imageView.delegate);
+         scene.group.delegate.children.add(actor.image.imageView.delegate);
          actorManager.addActors(actor);
          
      }
@@ -71,7 +82,7 @@ shared abstract class World(
 
 }
 
-shared alias Point => [Integer, Integer];
+shared alias Location => [Integer, Integer];
 
 shared void animate(World() world) {
     
@@ -82,7 +93,7 @@ shared void animate(World() world) {
             dimension = [createdWorld.width.float, createdWorld.height.float];
         };
         
-        createdWorld.initialize();
+        createdWorld.internalInitialize();
        
         return createdWorld.scene;
     }

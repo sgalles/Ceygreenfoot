@@ -1,12 +1,13 @@
 
 import ceylonfx.scene.image {
-    CoreImage=Image
+    CeylonFxImage=Image,
+    ImageView
 }
 
 shared class Image(String filename) {
     
-    shared CoreImage coreImage = CoreImage(filename);
-    shared Integer width => coreImage.delegate.width.integer;
-    shared Integer height => coreImage.delegate.height.integer;
+    shared ImageView imageView = ImageView(CeylonFxImage(filename));
+    shared Integer width => imageView.delegate.image.width.integer;
+    shared Integer height => imageView.delegate.image.height.integer;
     
 }

@@ -1,20 +1,19 @@
-import ceylonfx.scene.image { ImageView }
+
 shared abstract class Actor(shared Image image) {
 
     shared late World world;
-    shared ImageView imageView = ImageView(image.coreImage);
 
-    shared Integer x => imageView.delegate.x.integer;
+    shared Integer x => image.imageView.delegate.x.integer;
     assign x {
-        imageView.delegate.x = x.float;
+        image.imageView.delegate.x = x.float;
     }
     
-    shared Integer y => imageView.delegate.y.integer;
+    shared Integer y => image.imageView.delegate.y.integer;
     assign y {
-        imageView.delegate.y = y.float;
+        image.imageView.delegate.y = y.float;
     }
 
-    shared Point point => [x,y];
+    shared Location point => [x,y];
     assign point {
         x = point[0];
         y = point[1];

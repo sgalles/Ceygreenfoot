@@ -5,7 +5,13 @@ import ceygreenfoot {
     animate
 }
 
-class BasicActor() extends Actor(Image("file:rocket.png")){
+import ceylonfx.scene.paint {
+    Color,
+    black,
+    white
+}
+
+class Lander() extends Actor(Image("file:rocket.png")){
     
     variable Integer xStep = 1;
     variable Integer yStep = 1;
@@ -21,16 +27,25 @@ class BasicActor() extends Actor(Image("file:rocket.png")){
        y += yStep;
     }
     
-}class BasicWorld() extends World(){
+}class Moon() extends World(Image("file:moon.png")){
+    
+    "Gravity of the moon"
+    shared Float gravity = 1.6;
+    
+    "Color of the landing platform "
+    shared Color landingColor = white;
+    
+    "Color of the landing platform "
+    shared Color spaceColor = black;
     
     shared actual void initialize() {
-        addObject(BasicActor(), [width/2, height/2]);
+        addObject(Lander(), [326, 100]);
     }
      
 }
 
 shared void run() { 
-    animate(BasicWorld);
+    animate(Moon);
 }
 
 
