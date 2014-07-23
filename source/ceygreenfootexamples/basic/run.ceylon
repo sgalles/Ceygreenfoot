@@ -13,20 +13,30 @@ import ceylonfx.scene.paint {
 
 class Lander() extends Actor(Image("file:rocket.png")){
     
-    variable Integer xStep = 1;
-    variable Integer yStep = 1;
+    late Moon moon;
+    
+    late variable Float altitude; 
+    
+    variable Float speed = 0.0;
+    
+    Float speedFactor = 10.0;
+    
+    shared actual void addedToWorld(World moon){
+        assert(is Moon moon);
+        this.moon = moon;
+        altitude = y.float;
+    }
    
     shared actual void act() {
-       if(! 0 < x < world.width - image.width ){
-           xStep *= -1;
-       }
-       if(! 0 < y < world.height - image.height ){
-           yStep *= -1;
-       }
-       x += xStep;
-       y += yStep;
+       applyGravity();
+       altitude += speed / speedFactor;
+       y = altitude.integer;
+       
     }
     
+    shared void applyGravity() {
+        speed += moon.gravity;
+    }
 }class Moon() extends World(Image("file:moon.png")){
     
     "Gravity of the moon"

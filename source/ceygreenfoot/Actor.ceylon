@@ -1,8 +1,6 @@
 
 shared abstract class Actor(shared Image image) {
 
-    shared late World world;
-
     shared Integer x => image.imageView.delegate.x.integer;
     assign x {
         image.imageView.delegate.x = x.float;
@@ -19,5 +17,9 @@ shared abstract class Actor(shared Image image) {
         y = point[1];
     }
     
-    shared formal void act();
+    shared default void act(){}
+    
+    shared default void addedToWorld(World world){}
+    
+    
 }

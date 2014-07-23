@@ -64,10 +64,10 @@ shared abstract class World(
    
      
      shared void addObject(Actor actor, Location point){
-         actor.world = this;
          actor.point = point;
          scene.group.delegate.children.add(actor.image.imageView.delegate);
          actorManager.addActors(actor);
+         actor.addedToWorld(this);
          
      }
      
