@@ -11,7 +11,7 @@ shared abstract class Actor(shared Image image) {
         image.imageView.delegate.y = y.float;
     }
 
-    shared Location point => [x,y];
+    shared Location point => [x,y]; 
     assign point {
         x = point[0];
         y = point[1];

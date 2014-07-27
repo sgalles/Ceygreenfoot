@@ -2,7 +2,8 @@ import ceygreenfoot {
     World,
     Actor,
     Image,
-    animate
+    animate,
+    isKeyDown
 }
 
 import ceylonfx.scene.paint {
@@ -15,23 +16,39 @@ class Lander() extends Actor(Image("file:rocket.png")){
     
     late Moon moon;
     
-    late variable Float altitude; 
-    
+    "Current speed"
     variable Float speed = 0.0;
+    
+    "Power of the rocket"
+    Float thrust = -3.0;
+    
+    "The location"
+    late variable Float altitude; 
     
     Float speedFactor = 10.0;
     
-    shared actual void addedToWorld(World moon){
-        assert(is Moon moon);
-        this.moon = moon;
+    shared actual void act() {
+        processKeys();
+        applyGravity();
+        altitude += speed / speedFactor;
+        y = altitude.integer;
+     
+    }
+    
+    shared actual void addedToWorld(World world){
+        assert(is Moon world);
+        this.moon = world;
         altitude = y.float;
     }
    
-    shared actual void act() {
-       applyGravity();
-       altitude += speed / speedFactor;
-       y = altitude.integer;
-       
+    
+    shared void processKeys() {
+       if(isKeyDown("down")) {
+           speed+=thrust;
+          // setImage(rocketWithThrust);
+       } else {
+          // setImage(rocket);
+       }
     }
     
     shared void applyGravity() {

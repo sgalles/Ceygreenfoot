@@ -1,4 +1,13 @@
 
+
+import ceylon.collection {
+    HashSet
+}
+import ceylon.language {
+    shared,
+    true
+}
+
 import ceylonfx.animation {
     Timeline,
     KeyFrame
@@ -12,6 +21,9 @@ import ceylonfx.event {
 import ceylonfx.scene {
     Scene
 }
+import ceylonfx.scene.input {
+    KeyEvent
+}
 import ceylonfx.stage {
     Stage
 }
@@ -23,7 +35,9 @@ import javafx.animation {
     JAnimation=Animation {
         animationIndefinite=INDEFINITE
     }
-}
+}   
+HashSet<String> keysDown = HashSet<String>();
+
 shared abstract class World(
     shared Image? image = null,
     shared Integer width = 600,
@@ -44,17 +58,23 @@ shared abstract class World(
      shared void internalInitialize(){
         if(exists image){
             scene.group.delegate.children.add(image.imageView.delegate);
+            
         }
+        
+        scene.onKeyPressed = void(KeyEvent keyEvent){
+            keysDown.add(keyEvent.delegate.code.name.lowercased);
+        };
+        scene.onKeyReleased = void(KeyEvent keyEvent){
+            keysDown.remove(keyEvent.delegate.code.name.lowercased);
+        };
+        
+        
         initialize();
      }
- 
-    
-    
  
      
      shared void animate() {
      
-         
          Duration oneFrameAmt = Duration(1000.0 / framesPerSecond);
      
          object oneFrame extends KeyFrame(oneFrameAmt, void(ActionEvent event){                         act();                        }) {}                  gameLoop = Timeline({oneFrame}, animationIndefinite);                  gameLoop.play();
@@ -93,7 +113,9 @@ shared void animate(World() world) {
             dimension = [createdWorld.width.float, createdWorld.height.float];
         };
         
+       
         createdWorld.internalInitialize();
+        
        
         return createdWorld.scene;
     }
@@ -101,7 +123,7 @@ shared void animate(World() world) {
     Application {
         Stage {
             title = "";
-            createScene; 
+            createScene;  
         };
     };
     
@@ -109,4 +131,5 @@ shared void animate(World() world) {
   
 }
 
-    
+
+shared Boolean isKeyDown(String keyName) => keysDown.contains(keyName.lowercased);
