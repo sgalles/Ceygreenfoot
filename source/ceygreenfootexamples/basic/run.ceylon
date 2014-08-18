@@ -27,6 +27,12 @@ class Lander() extends Actor(Image("file:rocket.png")){
     
     Float speedFactor = 10.0;
     
+    "Rocket image without thrust"
+    late Image rocket;
+    
+    "Rocket image with thrust"
+    late Image rocketWithThrust;
+    
     shared actual void act() {
         processKeys();
         applyGravity();
@@ -39,15 +45,19 @@ class Lander() extends Actor(Image("file:rocket.png")){
         assert(is Moon world);
         this.moon = world;
         altitude = y.float;
+        // init images
+        rocket = image;
+        rocketWithThrust = Image("file:thrust.png");
+        //rocketWithThrust.drawImage(rocket, [0, 0]);
     }
    
     
     shared void processKeys() {
        if(isKeyDown("down")) {
            speed+=thrust;
-          // setImage(rocketWithThrust);
+           //image = rocketWithThrust;
        } else {
-          // setImage(rocket);
+           //image = rocket;
        }
     }
     

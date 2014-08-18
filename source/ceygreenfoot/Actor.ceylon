@@ -5,14 +5,14 @@ shared abstract class Actor(shared Image image) {
     Integer yOffset = image.height/2;
     
     object img {
-        value d = image.imageView.delegate;
-        shared Integer x => d.x.integer;
+        value d = image.canvas.delegate;
+        shared Integer x => d.translateX.integer;
         assign x{
-            d.x = x.float;
+            d.translateX = x.float;
         }
-        shared Integer y => d.y.integer;
+        shared Integer y => d.translateY.integer;
         assign y{
-            d.y = y.float;
+            d.translateY = y.float;
         }
     }
 

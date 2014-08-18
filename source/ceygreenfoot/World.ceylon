@@ -57,7 +57,7 @@ shared abstract class World(
  
      shared void internalInitialize(){
         if(exists image){
-            scene.group.delegate.children.add(image.imageView.delegate);
+            scene.group.delegate.children.add(image.canvas.delegate);
             
         }
         
@@ -81,11 +81,26 @@ shared abstract class World(
      
      }
      
+     void addImageFunction(Image image, Image? predecessor = null){
+         value children = scene.group.delegate.children;
+         if(exists predecessor){
+             value index = children.indexOf(predecessor.canvas.delegate);
+             "Unable to find predecessor"
+             assert(index != -1);
+             children.add(index+1,image.canvas.delegate);
+         }else{
+             children.add(image.canvas.delegate);
+         }
+         
+     }
    
      
      shared void addObject(Actor actor, Location point){
          actor.point = point;
-         scene.group.delegate.children.add(actor.image.imageView.delegate);
+         //scene.group.delegate.children.add(actor.image.imageView.delegate);
+         
+         addImageFunction(actor.image); // add own image
+         actor.image.registerAddImageFunction(addImageFunction);
          actorManager.addActors(actor);
          actor.addedToWorld(this);
          
