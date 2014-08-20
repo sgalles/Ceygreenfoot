@@ -19,7 +19,8 @@ import ceylonfx.event {
     ActionEvent
 }
 import ceylonfx.scene {
-    Scene
+    Scene,
+    Node
 }
 import ceylonfx.scene.input {
     KeyEvent
@@ -35,7 +36,10 @@ import javafx.animation {
     JAnimation=Animation {
         animationIndefinite=INDEFINITE
     }
-}   
+}   
+import javafx.scene {
+    JNode=Node
+}
 HashSet<String> keysDown = HashSet<String>();
 
 shared abstract class World(
@@ -52,13 +56,29 @@ shared abstract class World(
  
     late Timeline gameLoop;
  
+    object nodeManager satisfies NodeManager{
+     
+        shared actual void add(Node<JNode> node) {
+            scene.group.delegate.children.add(node.delegate);
+        }
+        
+        shared actual void replace(Node<JNode> oldNode, Node<JNode> newNode) {
+            value index = scene.group.delegate.children.indexOf(oldNode.delegate);
+            "Unable to find provided node"
+            assert(index != -1);
+            scene.group.delegate.children.set(index, newNode.delegate);
+        }
+        
+        
+       
+     
+    }
      
      shared formal void initialize();
  
      shared void internalInitialize(){
         if(exists image){
-            scene.group.delegate.children.add(image.canvas.delegate);
-            
+            nodeManager.add(image.canvas);
         }
         
         scene.onKeyPressed = void(KeyEvent keyEvent){
@@ -81,29 +101,17 @@ shared abstract class World(
      
      }
      
-     void addImageFunction(Image image, Image? predecessor = null){
-         value children = scene.group.delegate.children;
-         if(exists predecessor){
-             value index = children.indexOf(predecessor.canvas.delegate);
-             "Unable to find predecessor"
-             assert(index != -1);
-             children.add(index+1,image.canvas.delegate);
-         }else{
-             children.add(image.canvas.delegate);
-         }
-         
-     }
-   
-     
+    
      shared void addObject(Actor actor, Location point){
          actor.point = point;
          //scene.group.delegate.children.add(actor.image.imageView.delegate);
          
-         addImageFunction(actor.image); // add own image
-         actor.image.registerAddImageFunction(addImageFunction);
+         //nodeManager.add(actor.image.canvas);      
+         actor.nodeManager = nodeManager;
+         actor.nodeManager.add(actor.image.canvas);
+         //actor.image.registerAddImageFunction(addImageFunction);
          actorManager.addActors(actor);
          actor.addedToWorld(this);
-         
      }
      
      
@@ -111,13 +119,21 @@ shared abstract class World(
          // TODO : mettre dans ActorManager
          for(actor in actorManager.allSprites){
              actor.act();
-         }
-         
+         }      
      }
+     
+     shared interface NodeManager{
+         
+         shared formal void add(Node<JNode> node);
+         
+         shared formal void replace(Node<JNode> oldNode, Node<JNode> newNode);
+     }
+     
 
 }
 
 shared alias Location => [Integer, Integer];
+
 
 shared void animate(World() world) {
     

@@ -48,16 +48,16 @@ class Lander() extends Actor(Image("file:rocket.png")){
         // init images
         rocket = image;
         rocketWithThrust = Image("file:thrust.png");
-        //rocketWithThrust.drawImage(rocket, [0, 0]);
+        rocketWithThrust.drawImage(rocket, [0, 0]);
     }
    
     
     shared void processKeys() {
        if(isKeyDown("down")) {
            speed+=thrust;
-           //image = rocketWithThrust;
+           image = rocketWithThrust;
        } else {
-           //image = rocket;
+           image = rocket;
        }
     }
     

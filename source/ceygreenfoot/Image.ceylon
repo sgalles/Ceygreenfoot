@@ -9,20 +9,17 @@ import ceylonfx.scene.image {
 
 shared class Image(String filename) {
      
-    late Anything(Image) addImageFunction; 
-     
-    CeylonFxImage image = CeylonFxImage(filename);
-    shared Canvas canvas = Canvas([image.delegate.width, image.delegate.height]);  
-    canvas.graphicsContext2D.delegate.drawImage(image.delegate, 0.0, 0.0);
-    shared Integer width => canvas.delegate.width.integer;
-    shared Integer height => canvas.delegate.height.integer;
+    shared CeylonFxImage ceylonFxImage = CeylonFxImage(filename);
+     // TODO make the canvas creation lazy
+    shared Canvas canvas = Canvas([ceylonFxImage.delegate.width, ceylonFxImage.delegate.height]);  
+    canvas.graphicsContext2D.delegate.drawImage(ceylonFxImage.delegate, 0.0, 0.0);
+    shared Integer width => ceylonFxImage.delegate.width.integer;
+    shared Integer height => ceylonFxImage.delegate.height.integer;
     
-    shared void registerAddImageFunction(Anything(Image) addImageFunction){
-        this.addImageFunction = addImageFunction;
-    }
-    
+
     shared void drawImage(Image image, Location location){
-        addImageFunction(image);
+        //addImageFunction(image);
+        canvas.graphicsContext2D.delegate.drawImage(image.ceylonFxImage.delegate, 0.0, 0.0);
     }
     
 }
